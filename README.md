@@ -180,14 +180,34 @@ autoSort(arr, {
 
 Values are ranked by type to provide consistent mixed-type sorting:
 
-1. `null` / `undefined`
-2. `number`
-3. `string`
-4. `boolean`
-5. `symbol`
-6. `array`
-7. `object`
-8. `function`
+- A) Primitive Types  
+1  → null  
+2  → undefined  
+3  → NaN  
+4  → number  
+5  → bigint  
+6  → string   
+7  → boolean  
+8  → symbol  
+
+
+- B) Structural Types  
+9   → array  
+10  → date  
+11  → regexp  
+12  → map  
+13  → set  
+14  → typedArray (Uint8Array, Float32Array, …)  
+
+- C) Executable Types  
+15  → function  
+
+- D) Object Types  
+16  → object (plain object, class instances, custom objects)  
+
+- E) Unknown / Fallback  
+17  → unknown  
+
 
 Ranking is used to decide ordering between different types.
 For values of the same type, specialized logic is used (for example: numeric comparison for numbers, `localeCompare` for strings, etc.).
@@ -198,9 +218,9 @@ For values of the same type, specialized logic is used (for example: numeric com
 
 `autoSort` decides based on the following criteria:
 
-✔ Array size
-✔ Degree of sortedness (planned)
-✔ Data structure and type composition
+✔ Array size  
+✔ Degree of sortedness (planned)  
+✔ Data structure and type composition  
 
 ```text
 Coming soon...
@@ -257,7 +277,7 @@ autosort-js/
 
 # 🛣 Roadmap
 
-- [ ] Implement Bubble Sort
+- [X] Implement Bubble Sort
 - [ ] Implement mixed-type comparator
 - [ ] Implement Insertion Sort
 - [ ] Implement Selection Sort
