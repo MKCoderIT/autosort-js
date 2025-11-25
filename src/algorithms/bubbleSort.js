@@ -1,4 +1,4 @@
-// import autoCompare from "../core/autoCompare.js";
+import {autoCompare} from "../core/autoCompare.js";
 
 export function bubbleSort(array, ascending = true, func = null) {
 
@@ -23,4 +23,3 @@ export function bubbleSort(array, ascending = true, func = null) {
     }
     return array;
 }
-
