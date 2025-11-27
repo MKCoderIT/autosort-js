@@ -1,6 +1,6 @@
-import {autoCompare} from "../core/autoCompare.js";
+import autoCompare from "../core/autoCompare.js";
 
-export function bubbleSort(array, ascending = true, func = null) {
+export default function bubbleSort(array, ascending = true, func = null) {
 
     const compare = func || autoCompare;
 
