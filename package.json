@@ -1,11 +1,11 @@
 {
     "name": "autosort-js",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A modern, intelligent sorting library for JavaScript that includes classic algorithms, optimized methods, and a fully automatic smart sorter that chooses the best algorithm based on data type and structure.",
     "main": "src/index.js",
-    "type": "commonjs",
+    "type": "module",
     "scripts": {
-        "test": "node src/test.js",
+        "test": "node tests/test.js",
         "start": "node src/index.js"
     },
     "keywords": [
