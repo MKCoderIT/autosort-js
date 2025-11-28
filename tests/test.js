@@ -10,14 +10,13 @@ const students = [
 
 const test = [
     42,
-    "سلام",
     true,
     false,
     3.14,
     "JavaScript",
     null,
     undefined,
-    { name: "علی", age: 25 },
+    { age: 25 },
     [1, 2, 3],
     "Node.js",
     0,
@@ -43,14 +42,15 @@ const test = [
     NaN,
 ];
 
-const numbers = [1 , -1];
+const numbers = [1 , -1 , 12 ,14];
 
 import { autoSort } from "../src/index.js";
 
 console.log(autoSort(numbers , true , (a , b) => b - a));
+console.log(autoSort(students));
 
 import { arrayPrototype } from "../src/index.js";
 arrayPrototype();
 
-// console.log(numbers.autoSort());
-true
+console.log(test.autoSort());
+
