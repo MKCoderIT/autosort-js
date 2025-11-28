@@ -1,25 +1,27 @@
 import autoCompare from "../core/autoCompare.js";
+import { ErrorsCall } from "../core/analyzeArray.js";
 
 export default function bubbleSort(array, ascending = true, func = null) {
-
     const compare = func || autoCompare;
 
-    const n = array.length;
-    for (let i = 0; i < n - 1; i++) {
-        let swapped = false;
+    if (ErrorsCall.confirmCompare(array, compare)) {
+        const n = array.length;
+        for (let i = 0; i < n - 1; i++) {
+            let swapped = false;
 
-        for (let j = 0; j < n - 1 - i; j++) {
-            const result = ascending ? compare(array[j], array[j + 1]) : compare(array[j + 1], array[j]);
+            for (let j = 0; j < n - 1 - i; j++) {
+                const result = ascending ? compare(array[j], array[j + 1]) > 0 : compare(array[j + 1], array[j]) > 0;
+                if (result) {
+                    const temp = array[j + 1];
+                    array[j + 1] = array[j];
+                    array[j] = temp;
 
-            if (result > 0) {
-                const temp = array[j + 1];
-                array[j + 1] = array[j];
-                array[j] = temp;
-
-                swapped = true;
+                    swapped = true;
+                }
             }
+            if (!swapped) break;
         }
-        if (!swapped) break;
+        return array;
     }
-    return array;
+    return false;
 }
