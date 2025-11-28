@@ -1,7 +1,12 @@
-import bubbleSort from "../algorithms/bubbleSort.js";
-import autoCompare from "./autoCompare.js";
+import { bubbleSort } from "../algorithms/bubbleSort.js";
+import { autoCompare } from "./autoCompare.js";
 
-export default function autoSort(array, ascending = true, func = null){
+export function autoSort(array, ascending = true, func = null) {
     const compare = func || autoCompare;
-    return bubbleSort(array, ascending , compare);
+    return bubbleSort(array, ascending, compare);
+}
+
+export function autoSortPrototype(ascending = true, func = null) {
+    const compare = func || autoCompare;
+    return bubbleSort(this, ascending, compare);
 }

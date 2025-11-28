@@ -1,7 +1,7 @@
-import autoCompare from "../core/autoCompare.js";
+import { autoCompare } from "../core/autoCompare.js";
 import { ErrorsCall } from "../core/analyzeArray.js";
 
-export default function bubbleSort(array, ascending = true, func = null) {
+export function bubbleSort(array, ascending = true, func = null) {
     const compare = func || autoCompare;
 
     if (ErrorsCall.confirmCompare(array, compare)) {
@@ -22,6 +22,31 @@ export default function bubbleSort(array, ascending = true, func = null) {
             if (!swapped) break;
         }
         return array;
+    }
+    return false;
+}
+
+export function bubbleSortPrototype(ascending = true, func = null) {
+    const compare = func || autoCompare;
+
+    if (ErrorsCall.confirmCompare(this, compare)) {
+        const n = this.length;
+        for (let i = 0; i < n - 1; i++) {
+            let swapped = false;
+
+            for (let j = 0; j < n - 1 - i; j++) {
+                const result = ascending ? compare(this[j], this[j + 1]) > 0 : compare(this[j + 1], this[j]) > 0;
+                if (result) {
+                    const temp = this[j + 1];
+                    this[j + 1] = this[j];
+                    this[j] = temp;
+
+                    swapped = true;
+                }
+            }
+            if (!swapped) break;
+        }
+        return this;
     }
     return false;
 }

@@ -31,7 +31,7 @@ function getArrayRank(value) {
     }
 }
 
-export default function autoCompare(a, b) {
+export function autoCompare(a, b) {
     const aRank = getArrayRank(a);
     const bRank = getArrayRank(b);
 

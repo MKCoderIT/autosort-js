@@ -1,6 +1,5 @@
-import bubbleSort from "./algorithms/bubbleSort.js";
-import autoSort from "./core/autoSort.js";
+import {bubbleSort} from "./algorithms/bubbleSort.js";
+import {autoSort} from "./core/autoSort.js";
+import {arrayPrototype} from "./adapters/arrayPrototype.js";
 
-export default autoSort;
-export {bubbleSort}
-
+export {autoSort , arrayPrototype, bubbleSort };
