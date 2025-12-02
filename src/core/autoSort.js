@@ -7,6 +7,5 @@ export function autoSort(array, ascending = true, func = null) {
 }
 
 export function autoSortPrototype(ascending = true, func = null) {
-    const compare = func || autoCompare;
-    return bubbleSort(this, ascending, compare);
+    autoSort(this, ascending, compare);
 }
