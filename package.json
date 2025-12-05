@@ -16,7 +16,10 @@
         "./src/adapters/arrayPrototype.js"
     ],
     "scripts": {
-        "test": "node tests/test.js"
+        "test": "vitest",
+        "test:run": "vitest run",
+        "test:watch": "vitest",
+        "test:cov": "vitest run --coverage"
     },
     "keywords": [
         "javascript",
@@ -42,5 +45,8 @@
     "homepage": "https://github.com/MKCoderIT/autosort-js#readme",
     "engines": {
         "node": ">=16"
+    },
+    "devDependencies": {
+        "vitest": "^4.0.15"
     }
 }
