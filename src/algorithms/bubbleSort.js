@@ -22,6 +22,7 @@ export function bubbleSort(array, ascending = true, func = null) {
         }
         return array;
     }
+    return false
 }
 
 export function bubbleSortPrototype(ascending = true, func = null) {

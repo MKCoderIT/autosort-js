@@ -7,5 +7,5 @@ export function autoSort(array, ascending = true, func = null) {
 }
 
 export function autoSortPrototype(ascending = true, func = null) {
-    autoSort(this, ascending, compare);
+    return autoSort(this, ascending, func);
 }
