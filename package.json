@@ -42,5 +42,8 @@
     "homepage": "https://github.com/MKCoderIT/autosort-js#readme",
     "engines": {
         "node": ">=16"
+    },
+    "devDependencies": {
+        "vitest": "^4.0.15"
     }
 }
