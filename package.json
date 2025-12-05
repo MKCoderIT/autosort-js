@@ -2,25 +2,45 @@
     "name": "autosort-js",
     "version": "0.2.0",
     "description": "A modern, intelligent sorting library for JavaScript that includes classic algorithms, optimized methods, and a fully automatic smart sorter that chooses the best algorithm based on data type and structure.",
-    "main": "src/index.js",
+    "main": "./src/index.js",
     "type": "module",
+    "exports": {
+        ".": "./src/index.js"
+    },
+    "files": [
+        "src",
+        "README.md",
+        "LICENSE"
+    ],
+    "sideEffects": [
+        "./src/adapters/arrayPrototype.js"
+    ],
     "scripts": {
-        "test": "node tests/test.js",
-        "start": "node src/index.js"
+        "test": "node tests/test.js"
     },
     "keywords": [
         "javascript",
         "library",
         "sorting",
+        "sort",
         "algorithms",
+        "auto-sort",
+        "comparator",
         "utils",
-        "nodejs"
+        "nodejs",
+        "esm"
     ],
     "author": "Kamyar Taslimi",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/MKCoderIT/autosort-js.git"
+        "url": "git+https://github.com/MKCoderIT/autosort-js.git"
     },
-    "homepage": "https://github.com/MKCoderIT/autosort-js#readme.md"
+    "bugs": {
+        "url": "https://github.com/MKCoderIT/autosort-js/issues"
+    },
+    "homepage": "https://github.com/MKCoderIT/autosort-js#readme",
+    "engines": {
+        "node": ">=16"
+    }
 }
