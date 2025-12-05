@@ -27,6 +27,14 @@ Designed as both an educational project and a production-ready utility, **autoso
 
 ---
 
+## Links
+
+- **GitHub:** https://github.com/MKCoderIT/autosort-js
+- **npm:** https://www.npmjs.com/package/autosort-js
+
+---
+
+
 # ✨ Motivation
 
 JavaScript's built-in `Array.prototype.sort` is powerful but:
@@ -66,27 +74,47 @@ JavaScript's built-in `Array.prototype.sort` is powerful but:
 
 ---
 
-# 📦 Project Status
+<!-- # 📦 Project Status
 
 Active development.
 Semantic versioning, starting at `0.0.0`.
 
+--- -->
+
+- Lightweight (no dependencies)
+
 ---
 
-# ⚙️ Installation
+## ⚙️ Installation
+
+### npm (Recommended)
+
+```bash
+npm i autosort-js
+```
+
+Use in ES Modules:
+
+```js
+import { autoSort } from "autosort-js";
+```
+
+---
+
+### GitHub (Development)
 
 ```bash
 git clone https://github.com/MKCoderIT/autosort-js.git
 cd autosort-js
+npm install
+npm test
 ```
 
-Use in ES modules:
+Use locally:
 
 ```js
 import { autoSort } from "./src/index.js";
 ```
-
-> Later, this project can be consumed as an npm package (e.g. `npm install autosort-js`).
 
 ---
 
@@ -176,55 +204,55 @@ autoSort(arr, {
 
 ---
 
-# 🧠 Type Handling
+## 🧠 Type Handling
 
-Values are ranked by type to provide consistent mixed-type sorting:
+To support **mixed-type sorting**, `autoCompare` assigns each value a **type rank**.
+When two values have different ranks, the rank decides the order.
+When they have the same rank, a type-specific comparison is used.
 
-- A) Primitive Types  
-1  → null  
-2  → undefined  
-3  → NaN  
-4  → number  
-5  → bigint  
-6  → string   
-7  → boolean  
-8  → symbol  
+> Ascending order uses the ranking below.  
+> Descending order simply reverses the final result.
 
+### A) Primitive Types
+1  → number *(except NaN)*  
+2  → bigint  
+3  → string  
+4  → boolean  
+5  → symbol  
 
-- B) Structural Types  
-9   → array  
-10  → date  
-11  → regexp  
-12  → map  
-13  → set  
-14  → typedArray (Uint8Array, Float32Array, …)  
+### B) Structural Types
+6  → array  
+7  → date  
+8  → regexp  
+9  → map  
+10 → set  
+11 → typedArray *(Uint8Array, Float32Array, …)*
 
-- C) Executable Types  
-15  → function  
+### C) Executable Types
+12 → function  
 
-- D) Object Types  
-16  → object (plain object, class instances, custom objects)  
+### D) Object Types
+13 → object *(plain objects, class instances, custom objects)*
 
-- E) Unknown / Fallback  
-17  → unknown  
+### E) Unknown / Special Cases
+14 → unknown / fallback *(unsupported / uncommon types)*  
+15 → NaN *(treated separately even though `typeof NaN === "number"`)*  
+16 → null  
+17 → undefined  
 
+### Same-type comparison rules (summary)
+- **number / bigint:** numeric comparison  
+- **string:** `localeCompare`  
+- **boolean:** `false < true`  
+- **date:** compare by timestamp (`valueOf()` / `getTime()`)  
+- **regexp:** compare by string form (`String(value)`)  
+- **array / typedArray:** compare by length, then item-by-item (if enabled)  
+- **map / set:** compare by size, then values (if enabled)  
+- **object:** fallback comparison (usually stringified / stable fallback)  
 
-Ranking is used to decide ordering between different types.
-For values of the same type, specialized logic is used (for example: numeric comparison for numbers, `localeCompare` for strings, etc.).
+> Note: Complex structures (objects/arrays/maps/sets) may require a custom comparator
+> for fully deterministic results depending on your use case.
 
----
-
-# 🧬 Algorithm Selection Strategy
-
-`autoSort` decides based on the following criteria:
-
-✔ Array size  
-✔ Degree of sortedness (planned)  
-✔ Data structure and type composition  
-
-```text
-Coming soon...
-```
 
 Future versions can include more advanced detection (entropy, presorted runs, hybrid strategies).
 
@@ -243,51 +271,61 @@ Future versions can include more advanced detection (entropy, presorted runs, hy
 
 ---
 
-# 📁 Folder Structure
+## 📁 Folder Structure
 
 ```text
 autosort-js/
-  src/
-    algorithms/
-      bubbleSort.js
-      insertionSort.js
-      selectionSort.js
-      mergeSort.js
-      quickSort.js
-      heapSort.js
-    core/
-      compare.js          # type-aware comparator and helpers
-      autoSort.js         # autoSort engine that selects algorithms
-      detectArrayType.js  # optional helpers for array analysis
-    index.js              # main public exports
-    prototype-addon.js    # OPTIONAL: adds methods to Array.prototype
+  examples/                 # usage examples (optional)
 
-  examples/
-    ...
+  src/
+    adapters/
+      arrayPrototype.js     # OPTIONAL: adds methods to Array.prototype (opt-in)
+
+    algorithms/
+      bubbleSort.js         # bubble sort implementation
+      insertionSort.js      # insertion sort implementation
+      ...                   # other algorithms (selection/merge/quick/heap, etc.)
+
+    core/
+      errors/
+        AutoSortError.js        # base/custom errors for the library
+        ComparatorError.js      # comparator-related errors
+        NotArrayError.js        # non-array input error
+        errors.js               # error exports/helpers
+
+      analyzeArray.js        # validates/analyzes array + comparator usage
+      autoCompare.js         # type-aware comparator (mixed-type ordering)
+      autoSort.js            # smart sorter engine (chooses strategy/algorithm)
+      strategy.js            # strategy selection / routing logic
+
+    index.js                 # public exports (package entry point)
 
   tests/
-    ...
+    test.js                  # test runner / test cases
 
-  README.md
+  .gitignore
   LICENSE
-  package.json            # (to be added when publishing to npm)
+  package.json
+  package-lock.json
+  README.md
 ```
 
 ---
 
+
 # 🛣 Roadmap
 
 - [X] Implement Bubble Sort
-- [ ] Implement mixed-type comparator
-- [ ] Implement Insertion Sort
+- [X] Implement mixed-type comparator
+- [X] Implement Insertion Sort
 - [ ] Implement Selection Sort
 - [ ] Implement Merge Sort
 - [ ] Implement Quick Sort
 - [ ] Implement Heap Sort
-- [ ] Implement intelligent `autoSort` engine
+- [X] Implement intelligent `autoSort` engine
 - [ ] Add benchmarks
 - [ ] Add automated tests
-- [ ] Publish to npm
+- [X] Publish to npm
 
 ---
 
