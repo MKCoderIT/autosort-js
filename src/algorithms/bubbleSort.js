@@ -9,7 +9,7 @@ export function bubbleSort(array, ascending = true, func = null) {
             let swapped = false;
 
             for (let j = 0; j < n - 1 - i; j++) {
-                const result = ascending ? compare(array[j], array[j + 1]) > 0 : compare(array[j + 1], array[j]) > 0;
+                const result = ascending ? compare(array[j], array[j + 1]) > 0 : compare(array[j], array[j + 1]) < 0;
                 if (result) {
                     const temp = array[j + 1];
                     array[j + 1] = array[j];
