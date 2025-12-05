@@ -3,14 +3,13 @@ import { ErrorsCall } from "../core/analyzeArray.js";
 
 export function bubbleSort(array, ascending = true, func = null) {
     const compare = func || autoCompare;
-
     if (ErrorsCall.confirmCompare(array, compare)) {
         const n = array.length;
         for (let i = 0; i < n - 1; i++) {
             let swapped = false;
 
             for (let j = 0; j < n - 1 - i; j++) {
-                const result = ascending ? compare(array[j], array[j + 1]) > 0 : compare(array[j + 1], array[j]) > 0;
+                const result = ascending ? compare(array[j], array[j + 1]) > 0 : compare(array[j], array[j + 1]) < 0;
                 if (result) {
                     const temp = array[j + 1];
                     array[j + 1] = array[j];
@@ -23,30 +22,9 @@ export function bubbleSort(array, ascending = true, func = null) {
         }
         return array;
     }
-    return false;
+    return false
 }
 
 export function bubbleSortPrototype(ascending = true, func = null) {
-    const compare = func || autoCompare;
-
-    if (ErrorsCall.confirmCompare(this, compare)) {
-        const n = this.length;
-        for (let i = 0; i < n - 1; i++) {
-            let swapped = false;
-
-            for (let j = 0; j < n - 1 - i; j++) {
-                const result = ascending ? compare(this[j], this[j + 1]) > 0 : compare(this[j + 1], this[j]) > 0;
-                if (result) {
-                    const temp = this[j + 1];
-                    this[j + 1] = this[j];
-                    this[j] = temp;
-
-                    swapped = true;
-                }
-            }
-            if (!swapped) break;
-        }
-        return this;
-    }
-    return false;
+    return bubbleSort(this, ascending, func);
 }
