@@ -44,13 +44,11 @@ const test = [
 
 const numbers = [1 , -1 , 12 ,14];
 
-import { autoSort } from "../src/index.js";
+import { autoSort , bubbleSort , insertionSort , arrayPrototype } from "../src/index.js";
 
-console.log(autoSort(numbers , true , (a , b) => b - a));
-console.log(autoSort(students));
+//console.log(insertionSort(students));
 
-import { arrayPrototype } from "../src/index.js";
 arrayPrototype();
 
-console.log(test.autoSort());
+console.log(test.insertionSort());
 

@@ -20,3 +20,7 @@ export function insertionSort(array, ascending = true, func = null) {
     }
     return false;
 }
+
+export function insertionSortPrototype(ascending = true, func = null) {
+    return insertionSort(this , ascending , func);
+}
