@@ -16,7 +16,10 @@
         "./src/adapters/arrayPrototype.js"
     ],
     "scripts": {
-        "test": "node tests/test.js"
+        "test": "vitest",
+        "test:run": "vitest run",
+        "test:watch": "vitest",
+        "test:cov": "vitest run --coverage"
     },
     "keywords": [
         "javascript",
