@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-
 import { autoSort } from "../src/index.js";
 
 describe("autoSort", () => {
