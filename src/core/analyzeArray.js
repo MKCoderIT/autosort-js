@@ -1,6 +1,11 @@
 import * as Errors from "./errors/errors.js";
 
 export class ErrorsCall {
+    //General and unknown errors
+    static autoSort(message = null){
+        throw new Errors.AutoSortError(message);
+    }
+
     static confirmCompare(array, func) {
         if (typeof func === "function") {
             const n = array.length;
@@ -16,5 +21,12 @@ export class ErrorsCall {
         } else {
             throw new Errors.ComparatorTypeError();
         }
+    }
+    static arrayType(array) {
+        const type = (typeof array);
+        if (type === "object" && Array.isArray(array)) {
+            return true;
+        }
+        throw new Errors.NotArrayError(type);
     }
 }
