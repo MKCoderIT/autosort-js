@@ -1,5 +1,5 @@
 import { autoCompare } from "./autoCompare.js";
-import { ErrorsCall } from "./validators.js";
+import { Validators } from "./validators.js";
 
 const DEFAULT_OPTIONS = { ascending: true, compare: null };
 
@@ -15,9 +15,9 @@ export function normalizeSortOptions(array, options = {}) {
     const ascending = mergedOptions.ascending;
     const compare = mergedOptions.compare ?? autoCompare;
 
-    ErrorsCall.arrayType(array);
-    ErrorsCall.confirmAscending(ascending);
-    ErrorsCall.confirmCompare(array, compare);
+    Validators.assertArray(array);
+    Validators.assertAscending(ascending);
+    Validators.assertCompare(array, compare);
 
     return { ascending, compare };
 }

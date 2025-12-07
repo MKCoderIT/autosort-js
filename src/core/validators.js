@@ -1,39 +1,31 @@
 import * as Errors from "./errors/errors.js";
 
-export class ErrorsCall {
-    //General and unknown errors
-    static autoSort(message) {
+export class Validators {
+    static fail(message) {
         throw new Errors.AutoSortError(message);
     }
 
-    static confirmCompare(array, func) {
-        if (typeof func === "function") {
-            const n = array.length;
-            if (n !== 0 && n >= 2) {
-                const funcResult = func(array[0], array[1]);
-                if (typeof funcResult === "number" && !Number.isNaN(funcResult)) {
-                    return true;
-                } else {
-                    throw new Errors.ComparatorError();
-                }
-            }
-            return true;
-        } else {
-            throw new Errors.ComparatorTypeError();
-        }
+    static assertArray(value) {
+        if (value === null) throw new Errors.NotArrayError("null");
+        if (Array.isArray(value)) return true;
+        throw new Errors.NotArrayError(typeof value);
     }
-    static arrayType(array) {
-        const type = typeof array;
-        if (type === "object" && Array.isArray(array)) {
-            return true;
-        }
-        throw new Errors.NotArrayError(type);
+
+    static assertAscending(ascending) {
+        if (typeof ascending === "boolean") return true;
+        throw new Errors.AscendingTypeError(typeof ascending);
     }
-    static confirmAscending(ascending) {
-        const type = typeof ascending;
-        if (type === "boolean") {
+
+    static assertCompare(array, compare) {
+        if (typeof compare !== "function") throw new Errors.ComparatorTypeError();
+        if (!array || array.length < 2) return true;
+
+        try {
+            const r = compare(array[0], array[1]);
+            if (typeof r !== "number" || Number.isNaN(r)) throw new Errors.ComparatorError();
             return true;
+        } catch {
+            throw new Errors.ComparatorError();
         }
-        throw new Errors.AscendingTypeError(type);
     }
 }
