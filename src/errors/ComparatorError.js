@@ -9,9 +9,8 @@ export class ComparatorError extends AutoSortError {
     }
 }
 export class ComparatorTypeError extends AutoSortError {
-    constructor(message = "Invalid comparator: Must be a function.") {
+    constructor(message = "Invalid comparator Type: Must be a function.") {
         super(message);
-
-        this.name = "ComparatorErrorType";
+        this.name = "ComparatorTypeError";
     }
 }
