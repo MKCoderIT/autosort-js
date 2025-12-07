@@ -1,4 +1,4 @@
-import * as Errors from "./errors/errors.js";
+import * as Errors from "../errors/index.js";
 
 export class Validators {
     static fail(message) {
