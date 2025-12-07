@@ -1,7 +1,4 @@
-import { autoCompare } from "../core/autoCompare.js";
-import { ErrorsCall } from "../core/analyzeArray.js";
-
-const DEFAULT_OPTIONS = { ascending: true, compare: null };
+import { normalizeSortOptions } from "../core/normalizeOptions.js";
 
 /**
  * Sorts an array in-place using insertion sort.
@@ -17,13 +14,7 @@ const DEFAULT_OPTIONS = { ascending: true, compare: null };
  * @returns {T[]} The same array reference, sorted.
  */
 export function insertionSort(array, options = {}) {
-    const mergeOptions = { ...DEFAULT_OPTIONS, ...options };
-    const ascending = mergeOptions.ascending;
-    const compare = mergeOptions.compare ?? autoCompare;
-
-    ErrorsCall.arrayType(array);
-    ErrorsCall.confirmAscending(ascending);
-    ErrorsCall.confirmCompare(array, compare);
+    const { ascending, compare } = normalizeSortOptions(array, options);
 
     const n = array.length;
     for (let i = 0; i < n - 1; i++) {
@@ -56,6 +47,5 @@ export function insertionSort(array, options = {}) {
  * @throws {ComparatorTypeError|ComparatorError} If compare is invalid.
  */
 export function insertionSortPrototype(options = {}) {
-  return insertionSort(this, options);
+    return insertionSort(this, options);
 }
-

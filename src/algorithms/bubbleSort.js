@@ -1,7 +1,4 @@
-import { autoCompare } from "../core/autoCompare.js";
-import { ErrorsCall } from "../core/analyzeArray.js";
-
-const DEFAULT_OPTIONS = { ascending: true, compare: null };
+import { normalizeSortOptions } from "../core/normalizeOptions.js";
 
 /**
  * Sorts an array in-place using Bubble Sort.
@@ -20,13 +17,7 @@ const DEFAULT_OPTIONS = { ascending: true, compare: null };
  * @throws {ComparatorTypeError|ComparatorError}
  */
 export function bubbleSort(array, options = {}) {
-    const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
-    const ascending = mergedOptions.ascending;
-    const compare = mergedOptions.compare ?? autoCompare;
-
-    ErrorsCall.arrayType(array);
-    ErrorsCall.confirmAscending(ascending);
-    ErrorsCall.confirmCompare(array, compare);
+    const { ascending, compare } = normalizeSortOptions(array, options);
 
     const n = array.length;
     for (let i = 0; i < n - 1; i++) {
