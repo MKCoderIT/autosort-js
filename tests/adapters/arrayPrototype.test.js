@@ -22,11 +22,7 @@ describe("Array.prototype integration (opt-in)", () => {
 
     it("Array.prototype.autoSort() sorts mixed types like autoSort()", () => {
         const mixed = ["kamyar", [], 22, true, {}, "ali", 77, "zahra"];
-
-        const byFn = autoSort([...mixed]);
-        const byProto = [...mixed].autoSort();
-
-        expect(byProto).toEqual(byFn);
+        expect([...mixed].autoSort()).toEqual(autoSort([...mixed]));
     });
 
     it("Array.prototype.autoSort({ ascending:false }) supports options", () => {
@@ -34,10 +30,22 @@ describe("Array.prototype integration (opt-in)", () => {
         expect(nums.autoSort({ ascending: false })).toEqual([3, 2, 1]);
     });
 
-    it("Array.prototype.autoSort() mutates the array (in-place)", () => {
-        const nums = [3, 1, 2];
-        const out = nums.autoSort();
-        expect(out).toBe(nums);
-        expect(nums).toEqual([1, 2, 3]);
+    it("arrayPrototype() is idempotent by default (calling twice does not throw)", () => {
+        expect(() => arrayPrototype()).not.toThrow();
+    });
+
+    it("arrayPrototype({ strict:true }) throws if methods already exist", () => {
+        expect(() => arrayPrototype({ strict: true })).toThrow();
+    });
+
+    it("arrayPrototype({ override:true }) does not throw if methods already exist", () => {
+        expect(() => arrayPrototype({ override: true })).not.toThrow();
+        const desc = Object.getOwnPropertyDescriptor(Array.prototype, "autoSort");
+        expect(desc).toBeTruthy();
+        expect(desc.enumerable).toBe(false);
+    });
+
+    it("throws when strict and override are both true", () => {
+        expect(() => arrayPrototype({ strict: true, override: true })).toThrow();
     });
 });
