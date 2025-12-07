@@ -4,8 +4,7 @@ import { insertionSort } from "../../src/index.js";
 describe("insertionSort", () => {
     it("sorts numbers ascending", () => {
         const input = [5, 1, 4, 2, 8];
-        const out = insertionSort(input);
-        expect(out).toEqual([1, 2, 4, 5, 8]);
+        expect(insertionSort(input)).toEqual([1, 2, 4, 5, 8]);
     });
 
     it("handles already sorted arrays", () => {

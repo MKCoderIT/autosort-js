@@ -2,7 +2,7 @@ import * as Errors from "./errors/errors.js";
 
 export class ErrorsCall {
     //General and unknown errors
-    static autoSort(message = null){
+    static autoSort(message) {
         throw new Errors.AutoSortError(message);
     }
 
@@ -23,10 +23,17 @@ export class ErrorsCall {
         }
     }
     static arrayType(array) {
-        const type = (typeof array);
+        const type = typeof array;
         if (type === "object" && Array.isArray(array)) {
             return true;
         }
         throw new Errors.NotArrayError(type);
+    }
+    static confirmAscending(ascending) {
+        const type = typeof ascending;
+        if (type === "boolean") {
+            return true;
+        }
+        throw new Errors.AscendingTypeError(type);
     }
 }
