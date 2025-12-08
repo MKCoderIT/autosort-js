@@ -1,26 +1,51 @@
-import { autoCompare } from "../core/autoCompare.js";
-import { ErrorsCall } from "../core/analyzeArray.js";
+import { normalizeSortOptions } from "../core/normalizeOptions.js";
 
-export function insertionSort(array, ascending = true, func = null) {
-    const compare = func || autoCompare;
-    if (ErrorsCall.confirmCompare(array, compare)) {
-        const n = array.length;
+/**
+ * Sorts an array in-place using insertion sort.
+ *
+ * If `options.compare` is not provided, the built-in `autoCompare`
+ * (mixed-type comparator) is used.
+ *
+ * @template T
+ * @param {T[]} array The array to sort (mutates the original array).
+ * @param {Object} [options]
+ * @param {boolean} [options.ascending=true] Sort ascending (default) or descending.
+ * @param {(a: T, b: T) => number | null} [options.compare=null] Custom comparator.
+ * @returns {T[]} The same array reference, sorted.
+ */
+export function insertionSort(array, options = {}) {
+    const { ascending, compare } = normalizeSortOptions(array, options);
 
-        for (let i = 0; i < n - 1; i++) {
-            const key = array[i + 1];
-            let cart = i;
+    const n = array.length;
+    for (let i = 0; i < n - 1; i++) {
+        const key = array[i + 1];
+        let cart = i;
 
-            while (cart >= 0 && (ascending ? compare(array[cart], key) > 0 : compare(array[cart], key) < 0)) {
-                array[cart + 1] = array[cart];
-                cart--;
-            }
-            array[cart + 1] = key;
+        while (cart >= 0 && (ascending ? compare(array[cart], key) > 0 : compare(array[cart], key) < 0)) {
+            array[cart + 1] = array[cart];
+            cart--;
         }
-        return array;
+        array[cart + 1] = key;
     }
-    return false;
+    return array;
 }
 
-export function insertionSortPrototype(ascending = true, func = null) {
-    return insertionSort(this , ascending , func);
+/**
+ * Sorts **this array** in-place using insertion sort (Array.prototype addon).
+ *
+ * If `options.compare` is not provided, the built-in `autoCompare`
+ * (mixed-type comparator) is used automatically.
+ *
+ * @template T
+ * @this {T[]}
+ * @param {Object} [options]
+ * @param {boolean} [options.ascending=true] Sort ascending (default) or descending.
+ * @param {(a: T, b: T) => number | null} [options.compare=null] Custom comparator.
+ * @returns {T[]} The same array reference (`this`), sorted.
+ * @throws {NotArrayError} If `this` is not an Array (rare, unless called with .call/.apply).
+ * @throws {AscendingTypeError} If ascending is not boolean.
+ * @throws {ComparatorTypeError|ComparatorError} If compare is invalid.
+ */
+export function insertionSortPrototype(options = {}) {
+    return insertionSort(this, options);
 }
