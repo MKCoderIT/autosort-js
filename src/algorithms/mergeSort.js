@@ -1,38 +1,108 @@
 import { normalizeSortOptions } from "../core/normalizeOptions.js";
+import { bubbleSort } from "./bubbleSort.js";
+import { insertionSort } from "./insertionSort.js";
 
-export function mergeSort(array, options = {}) {
-    //const { ascending, compare } = normalizeSortOptions(array, options);
+// export function mergeSort(array, options = {}) {
+//     const opt = normalizeSortOptions(array, options);
+//     if (array.length <= 1) return array;
 
-    if (array.length <= 1) return array;
+//     const mid = Math.floor(array.length / 2);
 
-    const mid = Math.floor(array.length / 2);
-    const left = array.slice(0, mid);
-    const right = array.slice(mid);
+//     const left = array.slice(0, mid);
+//     const right = array.slice(mid);
 
-    const sortedLeft = mergeSort(left);
-    const sortedRight = mergeSort(right);
+//     const sortedLeft = mergeSort(left, opt);
+//     const sortedRight = mergeSort(right, opt);
 
-    const merged = merge(sortedLeft, sortedRight);
+//     function merge(left, right) {
+//         const out = [];
+//         let i = 0,
+//             j = 0;
 
-    return merged;
-}
+//         while (i < left.length && j < right.length) {
+//             const shouldSwap = opt.ascending ? opt.compare(left[i], right[j]) > 0 : opt.compare(left[i], right[j]) < 0;
+//             if (shouldSwap) {
+//                 out.push(right[j++]);
+//             } else {
+//                 out.push(left[i++]);
+//             }
+//         }
+//         return out.concat(left.slice(i), right.slice(j));
+//     }
 
-function merge(left, right) {
+//     function returns() {
+//         const merged = merge(sortedLeft, sortedRight);
+
+//         if (array.length === merged.length) {
+//             for (let i = 0; i < array.length; i++) {
+//                 array[i] = merged[i];
+//             }
+//             return array;
+//         }
+//         return merged;
+//     }
+
+//     return returns();
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function makeBig(n) {
     const out = [];
-    let i = 0 , j = 0;
-
-    while ((i < left.length, j < right.length)) {
-        if (left[i] <= right[j]) {
-            out.push(left[i++]);
-        } else {
-            out.push(right[j++]);
-        }
-    }
-    return out.concat(left.slice(i), right.slice(j));
+    for (let i = 0; i < n; i++) out.push(Math.floor(Math.random() * n));
+    return out;
 }
 
-console.time('merge');
+function benchBig(name, fn, n = 5000, rounds = 50) {
+    // warmup
+    for (let i = 0; i < 10; i++) {
+        const a = makeBig(n);
+        fn(a, { ascending: true });
+    }
 
-console.log("RESULT:", mergeSort([4, 1, 3, 9, 7]));
+    console.time(`${name} n=${n}`);
+    for (let i = 0; i < rounds; i++) {
+        const a = makeBig(n);
+        fn(a, { ascending: true });
+    }
+    console.timeEnd(`${name} n=${n}`);
+}
 
-console.timeEnd('merge');
+// اینجا bubble برای n بزرگ خیلی کند می‌شه
+// benchBig("merge", mergeSort);
+// benchBig("insertion", insertionSort);
+// benchBig("bubble", bubbleSort);
