@@ -1,5 +1,21 @@
 import { normalizeSortOptions } from "../core/normalizeOptions.js";
 
+/**
+ * Sorts an array in-place using Merge Sort.
+ *
+ * If `options.compare` is not provided, the built-in `autoCompare`
+ * (mixed-type comparator) is used.
+ *
+ * @template T
+ * @param {T[]} array The array to sort (mutates the original array).
+ * @param {Object} [options]
+ * @param {boolean} [options.ascending=true] Sort ascending (default) or descending.
+ * @param {(a: T, b: T) => number | null} [options.compare=null] Custom comparator.
+ * @returns {T[]} The same array reference, sorted.
+ * @throws {NotArrayError}
+ * @throws {AscendingTypeError}
+ * @throws {ComparatorTypeError|ComparatorError}
+ */
 export function mergeSort(array, options = {}) {
     const opt = normalizeSortOptions(array, options);
     if (array.length <= 1) return array;
@@ -38,5 +54,22 @@ function mergeRange(array, auxiliary, compare, min, mid, max) {
         else if (compare(auxiliary[i], auxiliary[j]) > 0) array[k] = auxiliary[j++];
         else array[k] = auxiliary[i++];
     }
+}
+
+/**
+ * Sorts **this array** in-place using Merge Sort (Array.prototype addon).
+ *
+ * If `options.compare` is not provided, the built-in `autoCompare`
+ * (mixed-type comparator) is used automatically.
+ *
+ * @template T
+ * @this {T[]}
+ * @param {Object} [options]
+ * @param {boolean} [options.ascending=true] Sort ascending (default) or descending.
+ * @param {(a: T, b: T) => number | null} [options.compare=null] Custom comparator.
+ * @returns {T[]} The same array reference (`this`), sorted.
+ */
+export function mergeSortPrototype(options = {}) {
+    return mergeSort(this, options);
 }
 
