@@ -14,5 +14,5 @@ export function normalizeSortOptions(array, options = {}) {
 
     const compare = ascending ? baseCompare : (a, b) => -baseCompare(a, b);
 
-    return { ascending, compare };
+    return { compare };
 }
