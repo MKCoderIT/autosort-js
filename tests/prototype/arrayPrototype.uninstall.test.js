@@ -19,7 +19,7 @@ describe("uninstallArrayPrototype()", () => {
         arrayPrototype.installArrayPrototype();
         arrayPrototype.uninstallArrayPrototype();
 
-        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHODS) {
+        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHOD_KEYS) {
             expect(Object.getOwnPropertyDescriptor(Array.prototype, name)).toBeUndefined();
             expect([][name]).toBeUndefined();
         }

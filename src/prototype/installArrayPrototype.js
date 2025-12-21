@@ -1,13 +1,6 @@
-import { bubbleSortPrototype } from "../algorithms/bubbleSort.js";
-import { insertionSortPrototype } from "../algorithms/insertionSort.js";
-import { autoSortPrototype } from "../core/autoSort.js";
 import { PrototypeError, PrototypeMethodExistsError } from "../errors/index.js";
+import { ARRAY_PROTOTYPE_METHODS } from "./methods.js";
 
-const METHODS = {
-    bubbleSort: bubbleSortPrototype,
-    insertionSort: insertionSortPrototype,
-    autoSort: autoSortPrototype
-};
 
 export function installArrayPrototype(options = {}) {
     const { strict = false, override = false } = options;
@@ -18,7 +11,7 @@ export function installArrayPrototype(options = {}) {
         );
     }
 
-    for (const [name, fn] of Object.entries(METHODS)) {
+    for (const [name, fn] of Object.entries(ARRAY_PROTOTYPE_METHODS)) {
         const desc = Object.getOwnPropertyDescriptor(Array.prototype, name);
         const exists = !!desc || name in Array.prototype;
 
@@ -46,4 +39,3 @@ export function installArrayPrototype(options = {}) {
     }
 }
 
-export const ARRAY_PROTOTYPE_METHODS = Object.freeze(Object.keys(METHODS));

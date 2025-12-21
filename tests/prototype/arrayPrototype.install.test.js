@@ -17,7 +17,7 @@ describe("installArrayPrototype()", () => {
     it("installs all methods as functions and non-enumerable", () => {
         arrayPrototype.installArrayPrototype();
 
-        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHODS) {
+        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHOD_KEYS) {
             expect(typeof [][name]).toBe("function");
             const desc = Object.getOwnPropertyDescriptor(Array.prototype, name);
             expect(desc).toBeTruthy();
@@ -28,8 +28,8 @@ describe("installArrayPrototype()", () => {
 
         const forInKeys = [];
         for (const k in []) forInKeys.push(k);
-        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHODS) expect(forInKeys).not.toContain(name);
-        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHODS) expect(Object.keys([])).not.toContain(name);
+        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHOD_KEYS) expect(forInKeys).not.toContain(name);
+        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHOD_KEYS) expect(Object.keys([])).not.toContain(name);
     });
 
     it("is idempotent by default (calling twice does not throw)", () => {
@@ -46,7 +46,7 @@ describe("installArrayPrototype()", () => {
         arrayPrototype.installArrayPrototype();
         expect(() => arrayPrototype.installArrayPrototype({ override: true })).not.toThrow();
 
-        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHODS) {
+        for (const name of arrayPrototype.ARRAY_PROTOTYPE_METHOD_KEYS) {
             const desc = Object.getOwnPropertyDescriptor(Array.prototype, name);
             expect(desc).toBeTruthy();
             expect(desc.enumerable).toBe(false);
