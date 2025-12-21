@@ -21,7 +21,7 @@ export function insertionSort(array, options = {}) {
         const key = array[i + 1];
         let cart = i;
 
-        while (cart >= 0 && (ascending ? compare(array[cart], key) > 0 : compare(array[cart], key) < 0)) {
+        while (cart >= 0 && compare(array[cart], key) > 0){
             array[cart + 1] = array[cart];
             cart--;
         }

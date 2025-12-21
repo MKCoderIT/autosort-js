@@ -24,9 +24,7 @@ export function bubbleSort(array, options = {}) {
         let swapped = false;
 
         for (let j = 0; j < n - 1 - i; j++) {
-            const shouldSwap = ascending ? compare(array[j], array[j + 1]) > 0 : compare(array[j], array[j + 1]) < 0;
-
-            if (shouldSwap) {
+            if (compare(array[j], array[j + 1]) > 0) {
                 [array[j], array[j + 1]] = [array[j + 1], array[j]];
                 swapped = true;
             }
