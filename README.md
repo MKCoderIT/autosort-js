@@ -1,7 +1,8 @@
 # 🚀 autosort-js
 
-A modern, modular JavaScript sorting library with classic algorithms and a default `autoSort` strategy.  
-Built to be educational, readable, and usable in real projects.
+![npm](https://img.shields.io/npm/v/autosort-js) ![license](https://img.shields.io/npm/l/autosort-js)
+
+A modern, modular JavaScript sorting library with classic algorithms and a default `autoSort` strategy.
 
 ---
 
@@ -11,6 +12,26 @@ Built to be educational, readable, and usable in real projects.
 - **npm:** https://www.npmjs.com/package/autosort-js  
 
 ---
+
+
+
+
+## 📑 Table of Contents
+
+- ⚙️ [Installation](#️-installation)
+- 🚀 [Quick Start (Function usage)](#-quick-start-function-usage)
+- 🧩 [Optional Array.prototype integration (opt-in)](#-optional-arrayprototype-integration-opt-in)
+- 📘 [API Reference](#-api-reference)
+  - 🔁 [autoSort](#autosort)
+  - 🧠 [arrayPrototype](#arrayprototype-namespace-export)
+- 🧮 [Algorithms](#algorithms)
+- 🛠️ [Custom Compare](#custom-compare)
+- 📁 [Folder Structure](#-folder-structure)
+- 🛣 [Roadmap](#-roadmap)
+- 📄 [License](#-license)
+
+
+
 
 ## ⚙️ Installation
 
@@ -49,13 +70,13 @@ This is the **recommended** way to use the library in applications and examples.
 
 ```js
 // basic.js
-import { autoSort, bubbleSort, insertionSort } from "autosort-js";
+import { autoSort, mergeSort, bubbleSort, insertionSort } from "autosort-js";
 
 const mixed = ["kamyar", [], 22, true, {}, "ali", 77, "zahra"];
 console.log("autoSort:", autoSort([...mixed])); // autoSort mutates the input array
 
 const nums = [5, 2, 9, 1];
-console.log("bubbleSort:", bubbleSort([...nums]));
+console.log("mergeSort:", mergeSort([...nums]));
 console.log("insertionSort:", insertionSort([...nums], { ascending: false }));
 ```
 
@@ -79,6 +100,7 @@ const mixed = ["kamyar", [], 22, true, {}, "ali", 77, "zahra"];
 console.log(mixed.autoSort());
 
 const nums = [5, 2, 9, 1];
+console.log(nums.mergeSort());
 console.log(nums.bubbleSort());
 console.log(nums.insertionSort());
 
@@ -89,6 +111,7 @@ arrayPrototype.uninstallArrayPrototype();
 ### What gets added?
 
 - `autoSort`
+- `mergeSort`
 - `bubbleSort`
 - `insertionSort`
 
@@ -176,6 +199,7 @@ arrayPrototype.isArrayPrototypeInstalled(options?: {
 Each algorithm sorts **in-place** and returns the same array reference:
 
 ```ts
+mergeSort<T>(array: T[], options?: { ascending?: boolean; compare?: ((a: T, b: T) => number) | null }): T[]
 bubbleSort<T>(array: T[], options?: { ascending?: boolean; compare?: ((a: T, b: T) => number) | null }): T[]
 insertionSort<T>(array: T[], options?: { ascending?: boolean; compare?: ((a: T, b: T) => number) | null }): T[]
 ```
@@ -196,58 +220,63 @@ autoSort(["ccc", "a", "bb"], {
 
 ## 📁 Folder Structure
 
-```text
+```
 autosort-js/
-  examples/                           # usage examples (optional)
+  examples/
+    speedTest.js                      # (NEW) performance benchmark / speed test script
+                                     # used to compare mergeSort vs bubbleSort vs insertionSort (manual run)
 
   src/
     algorithms/
-      bubbleSort.js                   # bubble sort implementation
-      insertionSort.js                # insertion sort implementation
+      bubbleSort.js                   # bubble sort implementation (in-place)
+      insertionSort.js                # insertion sort implementation (in-place)
+      mergeSort.js                    # (NEW) merge sort implementation (optimized with auxiliary buffer)
+                                     # in-place API + stable merge when equal (prefers left)
 
     core/
-      autoCompare.js                  # type-aware comparator (mixed-type ordering)
-      autoSort.js                     # default sorter (uses library strategy)
-      normalizeOptions.js             # merges options + normalizes config
-      strategy.js                     # strategy selection / routing logic (future-proof)
-      validators.js                   # shared validations (array/ascending/compare)
+      autoCompare.js                  # type-aware comparator (supports mixed types ordering)
+      autoSort.js                     # default sorter (uses strategy / routes to algorithms)
+      normalizeOptions.js             # merges options + validates + produces final comparator (ascending/descending)
+      strategy.js                     # strategy selection / routing logic
+      validators.js                   # shared validations (array, ascending, comparator validity)
 
     errors/
-      AscendingError.js               # invalid ascending type error
-      AutoSortError.js                # base/custom error class
+      AscendingError.js               # invalid ascending option type
+      AutoSortError.js                # base error class
       ComparatorError.js              # comparator-related errors
-      NotArrayError.js                # non-array input error
+      NotArrayError.js                # input is not an array
       PrototypeError.js               # prototype integration errors
-      PrototypeMethodExistsError.js   # method exists error (strict mode)
+      PrototypeMethodExistsError.js   # prevents overwriting existing prototype methods
       index.js                        # errors barrel exports
 
     prototype/
-      index.js                        # prototype module exports
-      installArrayPrototype.js        # install Array.prototype methods (opt-in)
-      isArrayPrototypeInstalled.js    # detect if installed
-      uninstallArrayPrototype.js      # uninstall prototype methods
+      index.js                        # prototype barrel exports
+      installArrayPrototype.js        # installs Array.prototype.autoSort (or similar)
+      isArrayPrototypeInstalled.js    # checks if prototype method is installed
+      uninstallArrayPrototype.js      # removes prototype method safely
 
-    index.js                          # public exports (package entry point)
+    index.js                          # library entry point (exports algorithms/core/prototype)
+                                     # (you should export mergeSort here too)
 
   tests/
-    adapters/
-      arrayPrototype.behavior.test.js     # behavior tests for prototype methods
-      arrayPrototype.install.test.js      # install tests
-      arrayPrototype.isInstalled.test.js  # isInstalled tests
-      arrayPrototype.uninstall.test.js    # uninstall tests
-
     algorithms/
-      bubbleSort.test.js              # bubble sort tests
-      insertionSort.test.js           # insertion sort tests
+      bubbleSort.test.js              # unit tests for bubbleSort
+      insertionSort.test.js           # unit tests for insertionSort
+      mergeSort.test.js               # (NEW) unit tests for mergeSort (Vitest)
+                                     # covers: ascending/descending, duplicates, negatives, empty/single,
+                                     # custom comparator, validation/error cases, in-place reference
 
-    autoSort.test.js                  # autoSort tests
+    prototype/
+      arrayPrototype.behavior.test.js # prototype behavior tests
+      arrayPrototype.install.test.js  # prototype install tests
+      arrayPrototype.isInstalled.test.js # prototype isInstalled tests
+      arrayPrototype.uninstall.test.js   # prototype uninstall tests
 
-  .gitignore
-  CONTRIBUTING.md
-  LICENSE
-  package.json
-  package-lock.json
-  README.md
+    autoSort.test.js                  # tests for autoSort integration/routing
+
+  .gitignore                          # git ignore rules
+  CONTRIBUTING.md                     # contributing guidelines
+  package.json / vitest config etc.   # (implied) project config files
 ```
 
 ---
@@ -270,17 +299,16 @@ Tests ensure prototype install/uninstall works correctly, methods stay non-enume
 The package is published to npm and can be installed via `npm i autosort-js`.
 - [ ] **Selection Sort**:
 Not implemented yet.
-- [ ] **Merge Sort**:
-Not implemented yet.
+- [X] **Merge Sort**:
+Implemented with an optimized auxiliary-buffer approach.
 - [ ] **Quick Sort**:
 Not implemented yet.
 - [ ] **Heap Sort**:
 Not implemented yet.
-- [ ] **Benchmarks**:
-No performance benchmarking suite/scripts yet.
+- [X] **Benchmarks**:
+Basic performance benchmarking via `examples/speedTest.js`.
 - [ ] **More test coverage**:
 More tests are still needed for edge cases and broader input scenarios.
-
 
 ---
 
